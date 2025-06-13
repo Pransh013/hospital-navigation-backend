@@ -13,8 +13,6 @@ const awsConfig = {
 const dynamoDBClient = new DynamoDBClient(awsConfig);
 const dbClient = DynamoDBDocumentClient.from(dynamoDBClient);
 
-export const usersTable = env.DYNAMODB_TABLE_USERS || "users table";
 export const patientsTable = env.DYNAMODB_TABLE_PATIENTS || "patients table";
-export const testsTable = env.DYNAMODB_TABLE_TESTS || "tests table";
 
 export default dbClient;
