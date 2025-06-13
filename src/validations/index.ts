@@ -6,6 +6,8 @@ export const envSchema = z.object({
   AWS_ACCESS_KEY_ID: z.string().min(1),
   AWS_SECRET_ACCESS_KEY: z.string().min(1),
   DYNAMODB_TABLE_PATIENTS: z.string().min(1),
+  DYNAMODB_TABLE_TESTS: z.string().min(1),
+  DYNAMODB_TABLE_PATIENT_TESTS: z.string().min(1),
   JWT_SECRET: z.string().min(1),
 });
 

@@ -1,23 +1,20 @@
-import { QueryCommand } from "@aws-sdk/lib-dynamodb";
-import dbClient, { patientsTable } from "../config/dynamodb";
-import Patient from "../models/patient";
+import { patientRepository } from "../repositories/patientRepository";
+import { generateToken, isValidPassword } from "../utils";
 
-export const getPatientByEmail = async (email: string) => {
-  const params = {
-    TableName: patientsTable,
-    IndexName: "email-index",
-    KeyConditionExpression: "email = :email",
-    ExpressionAttributeValues: {
-      ":email": email,
-    },
-    Limit: 1,
-  };
+export const patientService = {
+  signin: async (
+    email: string,
+    password: string
+  ): Promise<{ token: string }> => {
+    const patient = await patientRepository.findByEmail(email);
 
-  const { Items } = await dbClient.send(new QueryCommand(params));
-  if (!Items || Items.length === 0) {
-    const error: any = new Error("Patient not found");
-    error.statusCode = 404;
-    throw error;
-  }
-  return Items[0] as Patient;
+    if (!(await isValidPassword(password, patient.passwordHash))) {
+      const error: any = new Error("Incorrect password");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    const token = await generateToken(patient);
+    return { token };
+  },
 };
