@@ -3,7 +3,7 @@ import { verifyToken } from "../utils";
 
 export const authMiddleware = async (
   req: Request,
-  res: Response,
+  _: Response,
   next: NextFunction
 ) => {
   try {

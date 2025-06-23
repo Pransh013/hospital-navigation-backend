@@ -14,11 +14,10 @@ export const patientController = {
 
     try {
       const { email, password } = result.data;
-      const { token } = await patientService.signin(email, password);
-      console.log(`Patient signed in: ${email}`);
+      const { token, user } = await patientService.signin(email, password);
       res
         .status(200)
-        .json({ message: "Patient signed in successfully", token });
+        .json({ message: "Patient signed in successfully", token, user });
     } catch (error) {
       next(error);
     }

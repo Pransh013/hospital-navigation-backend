@@ -10,7 +10,7 @@ const PORT = env.PORT;
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use("/api/v1/", router);
+app.use("/api/v1", router);
 
 app.get("/", (_: Request, res: Response) => {
   res.json({ msg: "Hello world" });

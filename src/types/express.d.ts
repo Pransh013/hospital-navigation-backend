@@ -1,4 +1,4 @@
-import { TokenPayload } from "../utils";
+import { TokenPayload } from ".";
 
 declare global {
   namespace Express {

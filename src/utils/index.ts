@@ -2,11 +2,11 @@ import bcrypt from "bcryptjs";
 import { jwtVerify, SignJWT } from "jose";
 import { env } from "../config/env";
 import Patient from "../models/patient";
+import { TokenPayload } from "../types";
 
 const SALT_ROUNDS = 10;
 const TOKEN_EXPIRY_SECONDS = 60 * 60 * 24 * 7;
 
-type TokenPayload = Pick<Patient, "patientId" | "email" | "hospitalId">;
 const secretKey = new TextEncoder().encode(env.JWT_SECRET);
 
 export const generateToken = async (patient: TokenPayload): Promise<string> => {

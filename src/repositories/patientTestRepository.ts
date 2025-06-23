@@ -1,6 +1,6 @@
-import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient, { patientTestsTable } from "../config/dynamodb";
-import PatientTest from "../models/patientTest";
+import { PatientTest } from "../models/patientTest";
 
 export const patientTestRepository = {
   findByPatientId: async (patientId: string): Promise<PatientTest[]> => {
@@ -15,5 +15,23 @@ export const patientTestRepository = {
 
     const { Items } = await dbClient.send(new QueryCommand(params));
     return (Items || []) as PatientTest[];
+  },
+
+  updateStatusById: async (patientTestId: string, status: string) => {
+    const params = {
+      TableName: patientTestsTable,
+      Key: { patientTestId },
+      UpdateExpression: "set #status = :status",
+      ExpressionAttributeNames: { "#status": "status" },
+      ExpressionAttributeValues: { ":status": status },
+      ReturnValues: "ALL_NEW" as const,
+    };
+    const { Attributes } = await dbClient.send(new UpdateCommand(params));
+    if (!Attributes) {
+      const error: any = new Error("Patient test not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    return Attributes as PatientTest;
   },
 };
