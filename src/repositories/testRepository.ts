@@ -1,4 +1,4 @@
-import { GetCommand } from "@aws-sdk/lib-dynamodb";
+import { GetCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient, { testsTable } from "../config/dynamodb";
 import { Test } from "../models/test";
 
@@ -23,5 +23,21 @@ export const testRepository = {
       testIds.map((testId) => testRepository.findById(testId))
     );
     return tests;
+  },
+
+  decrementPatientsWaiting: async (testId: string): Promise<void> => {
+    await dbClient.send(
+      new UpdateCommand({
+        TableName: testsTable,
+        Key: { testId },
+        UpdateExpression:
+          "SET patientsWaiting = if_not_exists(patientsWaiting, :zero) - :dec",
+        ConditionExpression: "patientsWaiting > :zero",
+        ExpressionAttributeValues: {
+          ":dec": 1,
+          ":zero": 0,
+        },
+      })
+    );
   },
 };

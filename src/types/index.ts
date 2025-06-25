@@ -8,3 +8,12 @@ export type TokenPayload = Pick<
 >;
 
 export type SigninInput = z.infer<typeof signinSchema>;
+
+export type TestType = {
+  patientTestId: string;
+  testName: string;
+  testStatus: string;
+  floorNumber: number;
+  roomNumber: number;
+  patientsInLine: number;
+};

@@ -1,14 +1,6 @@
 import { patientTestRepository } from "../repositories/patientTestRepository";
 import { testRepository } from "../repositories/testRepository";
-
-export type TestType = {
-  patientTestId: string;
-  testName: string;
-  testStatus: string;
-  floorNumber: number;
-  roomNumber: number;
-  patientsInLine: number;
-};
+import { TestType } from "../types";
 
 export const patientTestService = {
   getPatientTests: async (patientId: string): Promise<TestType[]> => {
@@ -31,9 +23,11 @@ export const patientTestService = {
   },
 
   markTestCompleted: async (patientTestId: string) => {
-    return await patientTestRepository.updateStatusById(
+    const updatedPatientTest = await patientTestRepository.updateStatusById(
       patientTestId,
       "test_completed"
     );
+    await testRepository.decrementPatientsWaiting(updatedPatientTest.testId);
+    return updatedPatientTest;
   },
 };
