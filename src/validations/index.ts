@@ -8,6 +8,8 @@ export const envSchema = z.object({
   DYNAMODB_TABLE_PATIENTS: z.string().min(1),
   DYNAMODB_TABLE_TESTS: z.string().min(1),
   DYNAMODB_TABLE_PATIENT_TESTS: z.string().min(1),
+  DYNAMODB_TABLE_DOCTORS: z.string().min(1),
+  DYNAMODB_TABLE_BOOKING_SLOTS: z.string().min(1),
   JWT_SECRET: z.string().min(1),
 });
 

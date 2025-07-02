@@ -1,4 +1,4 @@
-import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { QueryCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient, { patientsTable } from "../config/dynamodb";
 import { Patient } from "../models/patient";
 
@@ -21,5 +21,18 @@ export const patientRepository = {
       throw error;
     }
     return Items[0] as Patient;
+  },
+  findById: async (patientId: string): Promise<Patient> => {
+    const params = {
+      TableName: patientsTable,
+      Key: { patientId },
+    };
+    const { Item } = await dbClient.send(new GetCommand(params));
+    if (!Item) {
+      const error: any = new Error("Patient not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    return Item as Patient;
   },
 };

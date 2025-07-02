@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { signinSchema } from "../validations";
 import { patientService } from "../services/patientService";
+import { patientTestService } from "../services/patientTestService";
 
 export const patientController = {
   signin: async (req: Request, res: Response, next: NextFunction) => {
@@ -18,6 +19,22 @@ export const patientController = {
       res
         .status(200)
         .json({ message: "Patient signed in successfully", token, user });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getConsultationSummary: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { id } = req.params;
+      const summary = await patientTestService.getConsultationSummaryForPatient(
+        id
+      );
+      res.status(200).json(summary);
     } catch (error) {
       next(error);
     }

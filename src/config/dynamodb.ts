@@ -17,5 +17,8 @@ export const patientsTable = env.DYNAMODB_TABLE_PATIENTS || "patients table";
 export const testsTable = env.DYNAMODB_TABLE_TESTS || "tests table";
 export const patientTestsTable =
   env.DYNAMODB_TABLE_PATIENT_TESTS || "patient tests table";
+export const doctorsTable = env.DYNAMODB_TABLE_DOCTORS || "doctors table";
+export const bookingSlotsTable =
+  env.DYNAMODB_TABLE_BOOKING_SLOTS || "booking slots table";
 
 export default dbClient;
