@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
-import { env } from "./config/env";
+import { env } from "./config/env.js";
 import morgan from "morgan";
-import router from "./routes";
-import errorHandler from "./middleware/errorHandler";
+import router from "./routes/index.js";
+import errorHandler from "./middleware/errorHandler.js";
 
 const app = express();
 const PORT = env.PORT;

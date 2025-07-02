@@ -1,7 +1,7 @@
 import express from "express";
-import { patientRouter } from "./patientRoutes";
-import { patientTestRouter } from "./patientTestRoutes";
-import { authMiddleware } from "../middleware/authMiddleware";
+import { patientRouter } from "./patientRoutes.js";
+import { patientTestRouter } from "./patientTestRoutes.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 

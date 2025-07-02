@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { verifyToken } from "../utils";
+import { verifyToken } from "../utils/index.js";
 
 export const authMiddleware = async (
   req: Request,

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { signinSchema } from "../validations";
-import { patientService } from "../services/patientService";
-import { patientTestService } from "../services/patientTestService";
+import { signinSchema } from "../validations/index.js";
+import { patientService } from "../services/patientService.js";
+import { patientTestService } from "../services/patientTestService.js";
 
 export const patientController = {
   signin: async (req: Request, res: Response, next: NextFunction) => {

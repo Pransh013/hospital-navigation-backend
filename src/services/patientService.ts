@@ -1,6 +1,6 @@
-import { patientRepository } from "../repositories/patientRepository";
-import { TokenPayload } from "../types";
-import { generateToken, isValidPassword } from "../utils";
+import { patientRepository } from "../repositories/patientRepository.js";
+import { TokenPayload } from "../types/index.js";
+import { generateToken, isValidPassword } from "../utils/index.js";
 
 export const patientService = {
   signin: async (

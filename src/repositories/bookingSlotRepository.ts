@@ -1,6 +1,6 @@
 import { GetCommand } from "@aws-sdk/lib-dynamodb";
-import dbClient, { bookingSlotsTable } from "../config/dynamodb";
-import { BookingSlot } from "../models/bookingSlot";
+import dbClient, { bookingSlotsTable } from "../config/dynamodb.js";
+import { BookingSlot } from "../models/bookingSlot.js";
 
 export const bookingSlotRepository = {
   findById: async (slotId: string): Promise<BookingSlot> => {

@@ -1,9 +1,6 @@
 import { z } from "zod";
-import { Patient } from "../models/patient";
-import { signinSchema } from "../validations";
-import { PatientTest } from "../models/patientTest";
-import { Doctor } from "../models/doctor";
-import { BookingSlot } from "../models/bookingSlot";
+import { Patient } from "../models/patient.js";
+import { signinSchema } from "../validations/index.js";
 
 export type TokenPayload = Pick<
   Patient,

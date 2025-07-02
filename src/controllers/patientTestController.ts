@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { patientTestService } from "../services/patientTestService";
+import { patientTestService } from "../services/patientTestService.js";
 
 export const patientTestController = {
   getPatientTests: async (req: Request, res: Response, next: NextFunction) => {

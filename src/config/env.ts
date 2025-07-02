@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { envSchema } from "../validations";
+import { envSchema } from "../validations/index.js";
 
 const parsedEnv = envSchema.safeParse(process.env);
 if (!parsedEnv.success) {

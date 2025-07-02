@@ -1,6 +1,6 @@
 import { GetCommand } from "@aws-sdk/lib-dynamodb";
-import dbClient, { doctorsTable } from "../config/dynamodb";
-import { Doctor } from "../models/doctor";
+import dbClient, { doctorsTable } from "../config/dynamodb.js";
+import { Doctor } from "../models/doctor.js";
 
 export const doctorRepository = {
   findById: async (doctorId: string): Promise<Doctor> => {

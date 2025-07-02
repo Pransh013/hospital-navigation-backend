@@ -1,9 +1,9 @@
-import { bookingSlotRepository } from "../repositories/bookingSlotRepository";
-import { doctorRepository } from "../repositories/doctorRepository";
-import { patientTestRepository } from "../repositories/patientTestRepository";
-import { testRepository } from "../repositories/testRepository";
-import { patientRepository } from "../repositories/patientRepository";
-import { TestType, ConsultationSummary } from "../types";
+import { bookingSlotRepository } from "../repositories/bookingSlotRepository.js";
+import { doctorRepository } from "../repositories/doctorRepository.js";
+import { patientTestRepository } from "../repositories/patientTestRepository.js";
+import { testRepository } from "../repositories/testRepository.js";
+import { patientRepository } from "../repositories/patientRepository.js";
+import { TestType, ConsultationSummary } from "../types/index.js";
 
 export const patientTestService = {
   getPatientTests: async (patientId: string): Promise<TestType[]> => {
