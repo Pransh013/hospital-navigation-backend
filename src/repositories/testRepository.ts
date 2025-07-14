@@ -24,20 +24,4 @@ export const testRepository = {
     );
     return tests;
   },
-
-  decrementPatientsWaiting: async (testId: string): Promise<void> => {
-    await dbClient.send(
-      new UpdateCommand({
-        TableName: testsTable,
-        Key: { testId },
-        UpdateExpression:
-          "SET patientsWaiting = if_not_exists(patientsWaiting, :zero) - :dec",
-        ConditionExpression: "patientsWaiting > :zero",
-        ExpressionAttributeValues: {
-          ":dec": 1,
-          ":zero": 0,
-        },
-      })
-    );
-  },
 };

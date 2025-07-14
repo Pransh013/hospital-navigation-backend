@@ -31,22 +31,4 @@ export const patientTestRepository = {
     }
     return Item as PatientTest;
   },
-
-  updateStatusById: async (patientTestId: string, status: string) => {
-    const params = {
-      TableName: patientTestsTable,
-      Key: { patientTestId },
-      UpdateExpression: "set #status = :status",
-      ExpressionAttributeNames: { "#status": "status" },
-      ExpressionAttributeValues: { ":status": status },
-      ReturnValues: "ALL_NEW" as const,
-    };
-    const { Attributes } = await dbClient.send(new UpdateCommand(params));
-    if (!Attributes) {
-      const error: any = new Error("Patient test not found");
-      error.statusCode = 404;
-      throw error;
-    }
-    return Attributes as PatientTest;
-  },
 };

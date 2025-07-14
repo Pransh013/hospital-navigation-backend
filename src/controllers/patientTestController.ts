@@ -14,20 +14,4 @@ export const patientTestController = {
       next(error);
     }
   },
-
-  markTestCompleted: async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const { id } = req.params;
-      const updated = await patientTestService.markTestCompleted(id);
-      res
-        .status(200)
-        .json({ message: "Test marked as completed", status: updated.status });
-    } catch (error) {
-      next(error);
-    }
-  },
 };

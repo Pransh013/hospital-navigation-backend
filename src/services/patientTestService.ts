@@ -51,13 +51,4 @@ export const patientTestService = {
       slotEndTime: slot.endTime,
     };
   },
-
-  markTestCompleted: async (patientTestId: string) => {
-    const updatedPatientTest = await patientTestRepository.updateStatusById(
-      patientTestId,
-      "test_completed"
-    );
-    await testRepository.decrementPatientsWaiting(updatedPatientTest.testId);
-    return updatedPatientTest;
-  },
 };
