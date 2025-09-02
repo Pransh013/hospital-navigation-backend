@@ -1,23 +1,18 @@
-import express, { Request, Response } from "express";
-import { env } from "./config/env.js";
-import morgan from "morgan";
-import router from "./routes/index.js";
-import errorHandler from "./middleware/errorHandler.js";
+import express from "express";
+
+import { env, logger } from "./config/index.js";
+import { errorHandler } from "./middleware/index.js";
+import { routes } from "./routes/index.js";
 
 const app = express();
-const PORT = env.PORT;
 
 app.use(express.json());
-app.use(morgan("dev"));
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/v1", router);
-
-app.get("/", (_: Request, res: Response) => {
-  res.json({ msg: "Hello world" });
-});
+app.use("/api", routes);
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server listening on port ${PORT}`);
+app.listen(env.PORT, () => {
+  logger.info(`🚀 Server running on port ${env.PORT} in ${env.NODE_ENV} mode`);
 });

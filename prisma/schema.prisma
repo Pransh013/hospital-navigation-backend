@@ -1,0 +1,228 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  hospitalId    String
+  hospital      Hospital  @relation(fields: [hospitalId], references: [id])
+  hospitalSlug  String
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model Hospital {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  address   String?
+  phone     String?
+  email     String?
+  logo      String?
+  active    Boolean   @default(true)
+  users     User[]
+  tests     Test[]
+  packages  Package[]
+  doctors   Doctor[]
+  patients  Patient[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("hospital")
+}
+
+model Test {
+  id              String        @id @default(cuid())
+  hospitalId      String
+  hospital        Hospital      @relation(fields: [hospitalId], references: [id])
+  name            String
+  code            String
+  price           Int
+  category        String
+  roomNumber      String
+  floor           String
+  fastingRequired Boolean?
+  durationInMins  Int?
+  isActive        Boolean       @default(true)
+  packageTests    PackageTest[]
+  patientTests    PatientTest[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@unique([hospitalId, code])
+  @@index([hospitalId])
+  @@map("test")
+}
+
+model Package {
+  id             String           @id @default(cuid())
+  hospitalId     String
+  hospital       Hospital         @relation(fields: [hospitalId], references: [id])
+  name           String
+  code           String
+  price          Int
+  packageTests   PackageTest[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  PatientPackage PatientPackage[]
+
+  @@unique([hospitalId, code])
+  @@index([hospitalId])
+  @@map("package")
+}
+
+model PackageTest {
+  id        String  @id @default(cuid())
+  packageId String
+  package   Package @relation(fields: [packageId], references: [id])
+  testId    String
+  test      Test    @relation(fields: [testId], references: [id])
+
+  @@unique([packageId, testId])
+  @@map("package_test")
+}
+
+model Patient {
+  id             String           @id @default(cuid())
+  hospitalId     String
+  hospital       Hospital         @relation(fields: [hospitalId], references: [id])
+  email          String
+  password       String
+  firstName      String
+  lastName       String
+  dateOfBirth    DateTime         @db.Date
+  gender         String
+  address        String?
+  patientTests   PatientTest[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  PatientPackage PatientPackage[]
+
+  @@unique([hospitalId, email])
+  @@index([hospitalId])
+  @@map("patient")
+}
+
+model PatientTest {
+  id          String     @id @default(cuid())
+  patientId   String
+  patient     Patient    @relation(fields: [patientId], references: [id])
+  testId      String
+  test        Test       @relation(fields: [testId], references: [id])
+  status      TestStatus @default(SCHEDULED)
+  scheduledAt DateTime   @db.Timestamptz()
+  checkInAt   DateTime?  @db.Timestamptz()
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([patientId, testId, scheduledAt])
+  @@index([patientId])
+  @@index([testId])
+  @@map("patient_test")
+}
+
+model PatientPackage {
+  id        String   @id @default(cuid())
+  patientId String
+  patient   Patient  @relation(fields: [patientId], references: [id])
+  packageId String
+  package   Package  @relation(fields: [packageId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("patient_package")
+}
+
+model Doctor {
+  id              String             @id @default(cuid())
+  hospitalId      String
+  hospital        Hospital           @relation(fields: [hospitalId], references: [id])
+  name            String
+  email           String
+  specializations String[]
+  availability    DoctorAvailability @default(AVAILABLE)
+  imageKey        String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@unique([hospitalId, email])
+  @@index([hospitalId])
+  @@map("doctor")
+}
+
+enum DoctorAvailability {
+  AVAILABLE
+  ON_LEAVE
+}
+
+enum TestStatus {
+  SCHEDULED
+  IN_QUEUE
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}

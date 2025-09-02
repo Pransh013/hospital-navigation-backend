@@ -1,11 +1,9 @@
-import express from "express";
-import { patientRouter } from "./patientRoutes.js";
-import { patientTestRouter } from "./patientTestRoutes.js";
-import { authMiddleware } from "../middleware/authMiddleware.js";
+import express, { type Router } from "express";
 
-const router = express.Router();
+import { v1Routes } from "./v1/index.js";
 
-router.use("/", patientRouter);
-router.use("/tests", authMiddleware, patientTestRouter);
+const router: Router = express.Router();
 
-export default router;
+router.use("/v1", v1Routes);
+
+export { router as routes };

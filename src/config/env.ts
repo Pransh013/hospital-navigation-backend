@@ -1,13 +1,14 @@
 import "dotenv/config";
-import { envSchema } from "../validations/index.js";
 
-const parsedEnv = envSchema.safeParse(process.env);
-if (!parsedEnv.success) {
+import { envSchema } from "@/lib/index.js";
+
+const { success, data, error } = envSchema.safeParse(process.env);
+if (!success) {
   console.error(
     "❌ Invalid environment variables:",
-    parsedEnv.error.flatten().fieldErrors
+    error.flatten().fieldErrors
   );
   throw new Error("Invalid environment variables");
 }
 
-export const env = parsedEnv.data;
+export const env = data;

@@ -1,21 +1,50 @@
+# Node.js
 node_modules/
+npm-debug.log
+yarn-error.log
 
-# Build output
+# Build Output
 dist/
 build/
 
-# Env variables
-.env*
+# Environment Variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# TypeScript
+*.tsbuildinfo
 
 # Logs
 logs/
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+*.log.*
 
-# IDE files
+# Editor and IDE
 .vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
 
-# Optional: TypeScript cache
-*.tsbuildinfo
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+# Biome Cache
+.biome/cache/
+
+# Testing
+coverage/
+*.lcov
+
+# Miscellaneous
+*.bak
+*.tmp
+temp/
+tmp/
+/src/generated*

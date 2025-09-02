@@ -1,23 +1,26 @@
 import bcrypt from "bcryptjs";
 import { jwtVerify, SignJWT } from "jose";
-import { env } from "../config/env.js";
-import { TokenPayload } from "../types/index.js";
+
+import { env } from "@/config/index.js";
+import { TokenPayload } from "../index.js";
 
 const SALT_ROUNDS = 10;
 const TOKEN_EXPIRY_SECONDS = 60 * 60 * 24 * 7;
 
-const secretKey = new TextEncoder().encode(env.JWT_SECRET);
+function getSecretKey() {
+  return new TextEncoder().encode(env.JWT_SECRET);
+}
 
 export const generateToken = async (patient: TokenPayload): Promise<string> => {
   return await new SignJWT(patient)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime(`${TOKEN_EXPIRY_SECONDS}s`)
     .setIssuedAt()
-    .sign(secretKey);
+    .sign(getSecretKey());
 };
 
 export const verifyToken = async (token: string): Promise<TokenPayload> => {
-  const { payload } = await jwtVerify(token, secretKey);
+  const { payload } = await jwtVerify(token, getSecretKey());
   return payload as TokenPayload;
 };
 
