@@ -1,8 +1,8 @@
 import { StatusCodes } from "http-status-codes";
 
-import { logger } from "@/config/index.js";
-import { AppError } from "@/lib/index.js";
-import { HospitalRepository } from "@/repositories/index.js";
+import { logger } from "../config/index.js";
+import { AppError } from "../lib/index.js";
+import { HospitalRepository } from "../repositories/index.js";
 
 export const HospitalService = {
   getAll: async () => {

@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { verifyToken, AppError } from "@/lib/index.js";
+import { verifyToken, AppError } from "../lib/index.js";
 
 declare global {
   namespace Express {

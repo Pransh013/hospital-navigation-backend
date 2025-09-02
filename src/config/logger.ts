@@ -1,6 +1,6 @@
 import winston from "winston";
 
-import { env } from "./index.js";
+import { env } from "./env.js";
 
 const devFormat = winston.format.combine(
   winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),

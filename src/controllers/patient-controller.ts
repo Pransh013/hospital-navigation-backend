@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 
-import { successResponse } from "@/lib/index.js";
-import { PatientService } from "@/services/index.js";
+import { successResponse } from "../lib/index.js";
+import { PatientService } from "../services/index.js";
 import { format } from "date-fns";
 
 export const PatientController = {

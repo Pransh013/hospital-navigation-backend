@@ -1,9 +1,9 @@
 import { StatusCodes } from "http-status-codes";
 
-import { logger } from "@/config/index.js";
-import { AppError, generateToken, isValidPassword } from "@/lib/index.js";
-import { PatientRepository } from "@/repositories/index.js";
-import { SigninType } from "@/lib/types/index.js";
+import { logger } from "../config/index.js";
+import { AppError, generateToken, isValidPassword } from "../lib/index.js";
+import { PatientRepository } from "../repositories/index.js";
+import { SigninType } from "../lib/index.js";
 
 export const PatientService = {
   signin: async ({ email, password, hospitalId }: SigninType) => {

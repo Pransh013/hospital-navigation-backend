@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 import { jwtVerify, SignJWT } from "jose";
 
-import { env } from "@/config/index.js";
-import { TokenPayload } from "../index.js";
+import { env } from "../../config/env.js";
+import { TokenPayload } from "../types/index.js";
 
 const SALT_ROUNDS = 10;
 const TOKEN_EXPIRY_SECONDS = 60 * 60 * 24 * 7;

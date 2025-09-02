@@ -1,6 +1,6 @@
 import express from "express";
 
-import { HospitalController } from "@/controllers/index.js";
+import { HospitalController } from "../../controllers/index.js";
 
 const router = express.Router();
 

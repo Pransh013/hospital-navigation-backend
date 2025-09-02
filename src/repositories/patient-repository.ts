@@ -1,5 +1,6 @@
-import { prisma } from "@/lib/index.js";
 import { endOfDay, startOfDay } from "date-fns";
+
+import { prisma } from "../lib/index.js";
 
 export const PatientRepository = {
   findByEmail: async (email: string, hospitalId: string) => {

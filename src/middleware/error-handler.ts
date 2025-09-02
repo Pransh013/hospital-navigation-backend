@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { logger } from "@/config/index.js";
-import { type AppError, errorResponse } from "@/lib/index.js";
+import { logger } from "../config/index.js";
+import { type AppError, errorResponse } from "../lib/index.js";
 
 export const errorHandler = (
   err: AppError,

@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { envSchema } from "@/lib/index.js";
+import { envSchema } from "../lib/index.js";
 
 const { success, data, error } = envSchema.safeParse(process.env);
 if (!success) {

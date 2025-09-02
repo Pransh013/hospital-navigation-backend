@@ -1,8 +1,8 @@
 import express from "express";
 
-import { PatientController } from "@/controllers/index.js";
-import { authMiddleware, validateSchema } from "@/middleware/index.js";
-import { signinSchema } from "@/lib/index.js";
+import { PatientController } from "../../controllers/index.js";
+import { authMiddleware, validateSchema } from "../../middleware/index.js";
+import { signinSchema } from "../../lib/index.js";
 
 const router = express.Router();
 

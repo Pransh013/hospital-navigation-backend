@@ -5,6 +5,7 @@ export const envSchema = z.object({
   JWT_SECRET: z.string().min(1),
   NODE_ENV: z.enum(["development", "production"]).default("development"),
   DATABASE_URL: z.string().url(),
+  API_URL: z.string().url(),
 });
 
 export const signinSchema = z.object({

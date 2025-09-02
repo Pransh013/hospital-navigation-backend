@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/index.js";
+import { prisma } from "../lib/index.js";
 
 export const HospitalRepository = {
   getAll: async () => {
