@@ -1,4 +1,5 @@
 import { endOfDay, startOfDay } from "date-fns";
+import { fromZonedTime, toZonedTime } from "date-fns-tz";
 
 import { prisma } from "../lib/index.js";
 
@@ -29,8 +30,9 @@ export const PatientRepository = {
   },
 
   getBookings: async (patientId: string, date: string) => {
-    const from = startOfDay(new Date(date));
-    const to = endOfDay(new Date(date));
+    const istDate = toZonedTime(new Date(date), "Asia/Kolkata");
+    const from = fromZonedTime(startOfDay(istDate), "Asia/Kolkata");
+    const to = fromZonedTime(endOfDay(istDate), "Asia/Kolkata");
 
     return prisma.patientTest.findMany({
       where: {
