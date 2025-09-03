@@ -9,7 +9,6 @@ export const validateSchema =
   <T>(schema: ZodType<T>) =>
   (req: Request, res: Response, next: NextFunction) => {
     const { success, data, error } = schema.safeParse(req.body);
-    logger.info(`${success}-${data}-${error}`);
     if (!success) {
       const messages = error.issues.map(
         (issue) => `${issue.path}: ${issue.message}`

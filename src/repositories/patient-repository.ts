@@ -65,16 +65,17 @@ export const PatientRepository = {
   },
 
   getScheduledTestsByPatientId: async (patientId: string) => {
-    const todayStart = startOfDay(new Date());
-    const todayEnd = endOfDay(new Date());
+    const istDate = toZonedTime(new Date(), "Asia/Kolkata");
+    const from = fromZonedTime(startOfDay(istDate), "Asia/Kolkata");
+    const to = fromZonedTime(endOfDay(istDate), "Asia/Kolkata");
 
     return prisma.patientTest.findMany({
       where: {
         patientId,
         status: "SCHEDULED",
         scheduledAt: {
-          gte: todayStart,
-          lte: todayEnd,
+          gte: from,
+          lte: to,
         },
       },
       include: {
@@ -90,8 +91,9 @@ export const PatientRepository = {
   },
 
   getPatientActiveTests: async (patientId: string) => {
-    const todayStart = startOfDay(new Date());
-    const todayEnd = endOfDay(new Date());
+    const istDate = toZonedTime(new Date(), "Asia/Kolkata");
+    const from = fromZonedTime(startOfDay(istDate), "Asia/Kolkata");
+    const to = fromZonedTime(endOfDay(istDate), "Asia/Kolkata");
 
     return prisma.patientTest.findFirst({
       where: {
@@ -100,16 +102,17 @@ export const PatientRepository = {
           in: ["IN_QUEUE", "IN_PROGRESS"],
         },
         scheduledAt: {
-          gte: todayStart,
-          lte: todayEnd,
+          gte: from,
+          lte: to,
         },
       },
     });
   },
 
   getQueueSizeForRoom: async (roomNumber: string) => {
-    const todayStart = startOfDay(new Date());
-    const todayEnd = endOfDay(new Date());
+    const istDate = toZonedTime(new Date(), "Asia/Kolkata");
+    const from = fromZonedTime(startOfDay(istDate), "Asia/Kolkata");
+    const to = fromZonedTime(endOfDay(istDate), "Asia/Kolkata");
 
     return prisma.patientTest.count({
       where: {
@@ -117,8 +120,8 @@ export const PatientRepository = {
           in: ["IN_QUEUE", "IN_PROGRESS"],
         },
         scheduledAt: {
-          gte: todayStart,
-          lte: todayEnd,
+          gte: from,
+          lte: to,
         },
         test: {
           roomNumber,
